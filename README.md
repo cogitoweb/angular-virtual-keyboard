@@ -40,6 +40,8 @@ _Obs.: Required to auto-hide the keyboard interface in mobile devices or to use 
 <input type='text' ng-model="yourModel" ng-virtual-keyboard/>
 ```
 
+ 5. $rootScope.keyboard_open: describes the status of the virtual keyboard
+
 ## Supported Configurations
 
 ### Directive global configurations
@@ -53,6 +55,7 @@ The angular-virtual-keyboard module use an [Angular.js Constant](https://docs.an
  - __Adjust keyboard size__ ``VKI_CONFIG.sizeAdj`` Allow user to adjust keyboard size. _Default: ``true``_
  - __i18n configuration__ ``VKI_CONFIG.i18n`` An array to replace the default labels of the keyboard interface. See example below:
  - __Custom CSS Class__ ``VKI_CONFIG.customClass`` A CSS class name to add in the first html element of the keyboard
+ - __Enable Virtual Keyboard__ ``VKI_CONFIG.virtual_keyboard`` Boolean variable to enable virtual keyboard (you have to reload the project to enable the changes)
 ```javascript
 VKI_CONFIG.i18n = {
 	'00': "Exibir teclado numérico",
@@ -62,7 +65,7 @@ VKI_CONFIG.i18n = {
 	'04': "Ligado",
 	'05': "Desligado",
 	'06': "Fechar teclado",
-	'07': "Limpar",
+	'07': "Cancella",
 	'08': "Limpar campo",
 	'09': "Versão",
 	'10': "Diminuir tamanho do teclado",
