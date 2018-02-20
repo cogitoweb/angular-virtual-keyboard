@@ -12,13 +12,13 @@ An AngularJs Virtual Keyboard Interface based on [GreyWyvern VKI](http://www.gre
 ### With bower
 
 ```sh
-$ bower install angular-virtual-keyboard
+$ bower install https://github.com/cogitoweb/angular-virtual-keyboard --save
 ```
 
 ### With npm
 
 ```sh
-$ npm install angular-virtual-keyboard
+$ npm install https://github.com/cogitoweb/angular-virtual-keyboard --save
 ```
 
 ## Dependencies
@@ -28,7 +28,7 @@ _Obs.: Required to auto-hide the keyboard interface in mobile devices or to use 
 
 ## Usage
 
-1. Import the ```angular-virtual-keyboard.min.js``` script in your page.
+1. Import the ```angular-virtual-keyboard.js``` script in your page.
 
 2. Include the module ```angular-virtual-keyboard``` in your angular app.
 
