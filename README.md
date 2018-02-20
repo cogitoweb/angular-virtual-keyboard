@@ -12,13 +12,13 @@ An AngularJs Virtual Keyboard Interface based on [GreyWyvern VKI](http://www.gre
 ### With bower
 
 ```sh
-$ bower install https://github.com/cogitoweb/angular-virtual-keyboard --save
+$ bower install https://github.com/cogitoweb/angular-virtual-keyboard.git --save
 ```
 
 ### With npm
 
 ```sh
-$ npm install https://github.com/cogitoweb/angular-virtual-keyboard --save
+$ npm install https://github.com/cogitoweb/angular-virtual-keyboard.git --save
 ```
 
 ## Dependencies
