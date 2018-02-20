@@ -61,11 +61,12 @@
  *
  */
 
-var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
+var VKI = function(customConfig, layout, deadKeys, keyInputCallback, $rootScope) {
   var self = this;
   var config = customConfig || {};
   self.keyInputCallback = keyInputCallback || function(){};
-
+  
+  this.$rootScope = $rootScope;
   this.VKI_version = "1.49";
   this.VKI_showVersion = config.showVersion !== undefined ? config.showVersion : false;
   this.VKI_target = false;
@@ -99,6 +100,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
   this.VKI_enterSubmit = config.enterSubmit || false; // true to Submit forms when Enter is pressed. Fn to execute a custom function.
   this.VKI_showKbSelect = config.showKbSelect || false; // Defaults to hide keyboard selection combobox
 
+  this.virtual_keyboard = config.virtual_keyboard; // to enable the virtual keyboard
+  
   /* ***** i18n text strings ************************************* */
   this.VKI_i18n = config.i18n;
 
@@ -191,8 +194,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
     } catch(e) {};
     return hasSelection;
   }
-
-
+  
   /* ****************************************************************
    * Attach the keyboard to an element
    *
@@ -786,7 +788,7 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
    *
    */
   this.VKI_show = function(elem) {
-    if (!this.VKI_target) {
+    if (!this.VKI_target && this.virtual_keyboard) {
       this.VKI_target = elem;
       if (this.VKI_langAdapt && this.VKI_target.lang) {
         var chg = false, sub = [], lang = this.VKI_target.lang.toLowerCase().replace(/-/g, "_");
@@ -824,6 +826,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       this.VKI_target.focus();
 
       this.VKI_closeOthers();
+      this.$rootScope.keyboard_open = true;
+      this.$rootScope.$digest();
     } else this.VKI_close(false);
   };
 
@@ -920,6 +924,8 @@ var VKI = function(customConfig, layout, deadKeys, keyInputCallback) {
       if (this.VKI_isIE) {
         setTimeout(function() { self.VKI_target = false; }, 0);
       } else this.VKI_target = false;
+      this.$rootScope.keyboard_open = false;
+      this.$rootScope.$digest();
     }
   };
 
@@ -1070,9 +1076,10 @@ angular.module('angular-virtual-keyboard', [])
 	},
 	relative: true,
 	sizeAdj: true,
-	customClass: false
+	customClass: false,
+    virtual_keyboard: false
 })
-.service('ngVirtualKeyboardService', ['VKI_CONFIG', function(VKI_CONFIG) {
+.service('ngVirtualKeyboardService', ['VKI_CONFIG', '$rootScope', function(VKI_CONFIG, $rootScope) {
 	/*globals VKI */
 	return {
 		attach: function(element, config, inputCallback) {
@@ -1083,8 +1090,9 @@ angular.module('angular-virtual-keyboard', [])
 			config.keyCenter = config.keyCenter || VKI_CONFIG.keyCenter;
 			config.sizeAdj = config.sizeAdj === false ? false : VKI_CONFIG.sizeAdj;
 			config.customClass = config.customClass || VKI_CONFIG.customClass;
-
-			var vki = new VKI(config, VKI_CONFIG.layout, VKI_CONFIG.deadkey, inputCallback);
+            config.virtual_keyboard = VKI_CONFIG.virtual_keyboard;
+            
+			var vki = new VKI(config, VKI_CONFIG.layout, VKI_CONFIG.deadkey, inputCallback, $rootScope);
 			vki.attachVki(element);
 		}
 	};
