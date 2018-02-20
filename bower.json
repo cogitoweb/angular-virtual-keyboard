@@ -8,5 +8,5 @@
   "main": [
     "release/angular-virtual-keyboard.js",
     "release/angular-virtual-keyboard.css"
-  ],
+  ]
 }
