@@ -665,6 +665,23 @@
                                 return true;
                             }, false);
                             break;
+                        // pulsante cancella
+                        case "Del":
+                            td.className = 'keyboard-clear-field';
+                            td.innerHTML = '';
+                            var span = document.createElement('span');
+                            span.appendChild(document.createTextNode(this.VKI_i18n['07']));
+                            VKI_addListener(span, 'click', function () {
+                                self.VKI_target.value = "";
+                                self.VKI_target.focus();
+                                self.keyInputCallback();
+                                return false;
+                            }, false);
+                            VKI_mouseEvents(span);
+
+                            td.appendChild(span);
+                            tr.appendChild(td);
+                            break;
                         default:
                             VKI_addListener(td, 'click', VKI_keyClick, false);
 
@@ -674,26 +691,7 @@
                     for (var z = 0; z < 4; z++)
                         if (this.VKI_deadkey[lkey[z] = lkey[z] || ""]) hasDeadKey = true;
                 }
-
-                // nell'ultima riga (quella con lo spazio) metto il pulsante per pulire tutto il campo di testo
-                if(tr.childElementCount === 1) {
-                    var td2 = document.createElement('td');
-                    td2.className = 'keyboard-clear-field';
-
-                    var span = document.createElement('span');
-                    span.appendChild(document.createTextNode(this.VKI_i18n['07']));
-                    VKI_addListener(span, 'click', function () {
-                        self.VKI_target.value = "";
-                        self.VKI_target.focus();
-                        self.keyInputCallback();
-                        return false;
-                    }, false);
-                    VKI_mouseEvents(span);
-
-                    td2.appendChild(span);
-                    tr.appendChild(td2);
-                }
-
+                
                 tbody.appendChild(tr);
                 table.appendChild(tbody);
                 container.appendChild(table);
@@ -772,6 +770,9 @@
                             case "Bksp":
                                 self.VKI_target.focus();
                             case "Enter":
+                                break;
+                            case "Del":
+                                className.push("keyboard-clear-field");
                                 break;
                             default:
                                 if (type) {
