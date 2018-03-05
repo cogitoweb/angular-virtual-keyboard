@@ -191,7 +191,7 @@
         function hasSelectionStartEnd(elem) {
             var hasSelection = false;
             try {
-                hasSelection = !isNaN(elem.selectionStart) && !isNaN(elem.selectionEnd);
+                hasSelection = elem.type !== "number" && typeof elem.selectionStart !== 'undefined' && typeof elem.selectionEnd !== 'undefined' && !isNaN(elem.selectionStart) && !isNaN(elem.selectionEnd);
             } catch (e) {
             }
             ;
