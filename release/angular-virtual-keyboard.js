@@ -1001,6 +1001,9 @@
                 this.$rootScope.$digest();
             }
         };
+        var closeListener = $rootScope.$on('close-keyboard', function() {
+            self.VKI_close();
+        })
 
 
         /* ***** Private functions *************************************** */
