@@ -998,7 +998,9 @@
                     }, 0);
                 } else this.VKI_target = false;
                 this.$rootScope.keyboard_open = false;
-                this.$rootScope.$digest();
+                if(!this.$rootScope.$$phase) {
+                    this.$rootScope.$digest();
+                }
             }
         };
         var closeListener = $rootScope.$on('close-keyboard', function() {
