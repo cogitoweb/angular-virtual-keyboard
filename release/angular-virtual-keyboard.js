@@ -102,7 +102,9 @@
         this.VKI_showKbSelect = config.showKbSelect || false; // Defaults to hide keyboard selection combobox
 
         this.virtual_keyboard = config.virtual_keyboard; // to enable the virtual keyboard
-
+        
+        this.clear_input = false; // to clear the input on first insert
+        
         /* ***** i18n text strings ************************************* */
         this.VKI_i18n = config.i18n;
 
@@ -834,7 +836,13 @@
                     this.VKI_target.range.text = text;
                     this.VKI_target.range.collapse(true);
                     this.VKI_target.range.select();
-                } else this.VKI_target.value += text;
+                } else {
+                    if(this.clear_input) {
+                        this.clear_input = false;
+                        this.VKI_target.value = "";
+                    }
+                    this.VKI_target.value += text;
+                }
                 if (this.VKI_shift) this.VKI_modify("Shift");
                 if (this.VKI_altgr) this.VKI_modify("AltGr");
                 this.VKI_target.focus();
@@ -850,7 +858,9 @@
          */
         this.VKI_show = function (elem) {
             if (!this.VKI_target && this.virtual_keyboard) {
+                this.clear_input = true;
                 this.VKI_target = elem;
+                this.VKI_target.select();
                 if (this.VKI_langAdapt && this.VKI_target.lang) {
                     var chg = false, sub = [], lang = this.VKI_target.lang.toLowerCase().replace(/-/g, "_");
                     for (var x = 0, chg = false; !chg && x < this.VKI_langCode.index.length; x++)
@@ -998,9 +1008,14 @@
                     }, 0);
                 } else this.VKI_target = false;
                 this.$rootScope.keyboard_open = false;
-                this.$rootScope.$digest();
+                if(!this.$rootScope.$$phase) {
+                    this.$rootScope.$digest();
+                }
             }
         };
+        var closeListener = $rootScope.$on('close-keyboard', function() {
+            self.VKI_close();
+        })
 
 
         /* ***** Private functions *************************************** */
