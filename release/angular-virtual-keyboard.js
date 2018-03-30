@@ -667,6 +667,18 @@
                                 return true;
                             }, false);
                             break;
+                        // pulsante di chiusura
+                        case "Close":
+                            td.className = 'keyboard-close-field';
+                            td.innerHTML = '';
+                            var span = document.createElement('span');
+                            span.appendChild(document.createTextNode('X'));                            
+                            VKI_addListener(span, 'click', function() { self.VKI_close(true); }, false);
+                            VKI_mouseEvents(span);
+
+                            td.appendChild(span);
+                            tr.appendChild(td);
+                            break;
                         // pulsante cancella
                         case "Del":
                             td.className = 'keyboard-clear-field';
@@ -772,6 +784,9 @@
                             case "Bksp":
                                 self.VKI_target.focus();
                             case "Enter":
+                                break;
+                            case "Close":
+                                className.push("keyboard-close-field");
                                 break;
                             case "Del":
                                 className.push("keyboard-clear-field");
@@ -1001,6 +1016,7 @@
                 }
                 if (keepFocus) {
                     this.VKI_target.focus();
+                    $rootScope.$emit('keyboard-closed');
                 }
                 if (this.VKI_isIE) {
                     setTimeout(function () {
@@ -1013,9 +1029,10 @@
                 }
             }
         };
+        
         var closeListener = $rootScope.$on('close-keyboard', function() {
             self.VKI_close();
-        })
+        });
 
 
         /* ***** Private functions *************************************** */
