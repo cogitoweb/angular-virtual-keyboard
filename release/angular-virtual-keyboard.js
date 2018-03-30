@@ -1017,6 +1017,7 @@
                 if (keepFocus) {
                     this.VKI_target.focus();
                     $rootScope.$emit('keyboard-closed');
+                    this.VKI_target.blur();
                 }
                 if (this.VKI_isIE) {
                     setTimeout(function () {
