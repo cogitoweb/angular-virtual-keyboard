@@ -912,6 +912,10 @@
 
                 this.VKI_position(true);
                 if (self.VKI_isMoz || self.VKI_isWebKit) this.VKI_position(true);
+
+                // get open virtual keyboard timestamp
+                this.showVirtualKeyboardTime = new Date().getTime();
+
                 this.VKI_target.blur();
                 this.VKI_target.focus();
 
@@ -1000,6 +1004,16 @@
          *
          */
         this.VKI_close = function (keepFocus) {
+            // get close virtual keyboard event timestamp
+            var timeToClose = new Date().getTime();
+
+            // to not close virtual keyboard on open manage password popup
+            // if open virtual keyboard event and close virtual keyboard event
+            // are less 150 microsec I don't close virtual keyboard
+            if(timeToClose - this.showVirtualKeyboardTime < 150) {
+                return;
+            }
+
             if (this.VKI_target) {
                 try {
                     this.VKI_keyboard.parentNode.removeChild(this.VKI_keyboard);
@@ -1012,7 +1026,6 @@
                         this.VKI_buildKeys();
                     }
                     kbSelect.getElementsByTagName('ol')[0].style.display = "";
-                    ;
                 }
                 if (keepFocus) {
                     this.VKI_target.focus();
